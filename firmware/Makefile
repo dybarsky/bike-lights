@@ -3,6 +3,7 @@ HEADERS = src/headers
 OUT = build
 
 export OBJ
+OBJ += $(OUT)/timer.o
 OBJ += $(OUT)/shift.o
 OBJ += $(OUT)/servo.o
 OBJ += $(OUT)/switch.o
@@ -51,3 +52,7 @@ $(OUT)/switch.o: $(SOURCES)/switch.c $(HEADERS)/switch.h
 $(OUT)/servo.o: $(SOURCES)/servo.c $(HEADERS)/servo.h
 	@echo "Compile $<";\
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $(SOURCES)/servo.c -o $(OUT)/servo.o
+
+$(OUT)/timer.o: $(SOURCES)/timer.c $(HEADERS)/*.h
+	@echo "Compile $<";\
+	$(CC) $(CFLAGS) $(INCFLAGS) -c $(SOURCES)/timer.c -o $(OUT)/timer.o

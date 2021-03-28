@@ -1,5 +1,5 @@
 /*
- Servo control
+ Servo control. Moves led strip.
 */
 
 void configure_servo();

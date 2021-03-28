@@ -10,7 +10,7 @@ void configure_shift() {
     P2OUT = 0;
 }
 
-void shift(char byte) {
+void shift(unsigned int byte) {
 	P2OUT &= ~LATCH;					// Latch is down to start shifting
     int bit;
     for (bit = 0; bit < 8; bit ++) {

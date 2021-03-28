@@ -1,6 +1,7 @@
 #include <msp430g2553.h>
 #include "shift.h"
 #include "servo.h"
+#include "timer.h"
 
 void configure() {
     WDTCTL = WDTPW + WDTHOLD;                   // turn off watchdog
@@ -15,11 +16,11 @@ void configure() {
 int main(void) {
     configure();     
     configure_shift();
+    configure_timer();
     configure_servo();
 
     servo_middle();
-    char a = 0b01100101;
-    shift(a);
+	start_blinking(4);
 
     _BIS_SR(LPM0_bits + GIE);                   // low power mode + enable interruptions
 }
