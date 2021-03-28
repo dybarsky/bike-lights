@@ -1,4 +1,5 @@
 #include <msp430g2553.h>
+#include "shift.h"
 #include "servo.h"
 
 void configure()
@@ -15,9 +16,12 @@ void configure()
 int main(void)
 {
     configure();     
+    configure_shift();
     configure_servo();
 
     servo_middle();
+    char a = 0b01100101;
+    shift(a);
 
     _BIS_SR(LPM0_bits + GIE);                   // low power mode + enable interruptions
 }

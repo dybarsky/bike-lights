@@ -3,7 +3,7 @@ HEADERS = src/headers
 OUT = build
 
 export OBJ
-OBJ += $(OUT)/spi.o
+OBJ += $(OUT)/shift.o
 OBJ += $(OUT)/servo.o
 OBJ += $(OUT)/switch.o
 OBJ += $(OUT)/main.o
@@ -40,9 +40,9 @@ $(OUT)/main.o: $(SOURCES)/main.c $(HEADERS)/*.h
 	@echo "Compile $<";\
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $(SOURCES)/main.c -o $(OUT)/main.o
 
-$(OUT)/spi.o: $(SOURCES)/spi.c $(HEADERS)/spi.h
+$(OUT)/shift.o: $(SOURCES)/shift.c $(HEADERS)/shift.h
 	@echo "Compile $<";\
-	$(CC) $(CFLAGS) $(INCFLAGS) -c $(SOURCES)/spi.c -o $(OUT)/spi.o
+	$(CC) $(CFLAGS) $(INCFLAGS) -c $(SOURCES)/shift.c -o $(OUT)/shift.o
 
 $(OUT)/switch.o: $(SOURCES)/switch.c $(HEADERS)/switch.h
 	@echo "Compile $<";\
