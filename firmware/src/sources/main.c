@@ -2,8 +2,7 @@
 #include "shift.h"
 #include "servo.h"
 
-void configure()
-{
+void configure() {
     WDTCTL = WDTPW + WDTHOLD;                   // turn off watchdog
 
     BCSCTL1 = CALBC1_1MHZ;                      // use frequency 1 MHz
@@ -13,8 +12,7 @@ void configure()
     P2OUT = 0;
 }
 
-int main(void)
-{
+int main(void) {
     configure();     
     configure_shift();
     configure_servo();
