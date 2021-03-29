@@ -14,7 +14,9 @@ CFLAGS = -g -mmcu=msp430g2553
 INCFLAGS = -I/usr/local/include -I$(HEADERS)
 
 help:
-	@echo "Targets: clean, build, flash" 
+	@echo "Tasks: clean, build, flash, all"
+
+all: | clean build flash
 
 clean:
 	@echo "Clean"
@@ -23,15 +25,19 @@ clean:
 build-dir:
 	mkdir -p build
 
-.SILENT: clean build-dir
-.PHONY: clean build-dir flash build
+wait:
+	sleep 1
 
-flash: $(OUT)/firmware.elf
+flash: | $(OUT)/firmware.elf wait
 	@echo "Flashing";\
 	mspdebug rf2500 "prog $(OUT)/firmware.elf"
 
 build: $(OUT)/firmware.elf
-	@echo "SUCCESSFUL";\
+	@echo '   ___ _   _  ___ ___ ___  ___ ___ '
+	@echo '  / __| | | |/ __/ __/ _ \/ __/ __|'
+	@echo '  \__ \ |_| | (_| (_|  __/\__ \__ \'
+	@echo '  |___/\__,_|\___\___\___||___/___/'
+	@echo ''
 
 $(OUT)/firmware.elf: | build-dir $(OBJ)
 	@echo "Link firmware";\
@@ -56,3 +62,6 @@ $(OUT)/servo.o: $(SOURCES)/servo.c $(HEADERS)/servo.h
 $(OUT)/timer.o: $(SOURCES)/timer.c $(HEADERS)/*.h
 	@echo "Compile $<";\
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $(SOURCES)/timer.c -o $(OUT)/timer.o
+
+.SILENT: clean build-dir wait
+.PHONY: clean build-dir flash build

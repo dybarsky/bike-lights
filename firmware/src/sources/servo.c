@@ -19,7 +19,7 @@
 #define PWM_MIN_TIME 1000            // 500 microsec
 #define PWM_MED_TIME 1900           // 1450 microsec
 
-int pwm[];
+int pwm[2];
 int current;
 
 void configure_servo() {
