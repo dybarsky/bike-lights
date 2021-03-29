@@ -19,8 +19,9 @@ int main(void) {
     configure_timer();
     configure_servo();
 
-    servo_left();
-	start_blinking(3);
+    // servo_left();
+    servo_right();
+	//start_blinking(3);
 
     _BIS_SR(LPM0_bits + GIE);                   // low power mode + enable interruptions
 }
