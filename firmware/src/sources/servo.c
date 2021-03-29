@@ -26,7 +26,7 @@ void configure_servo() {
     TA0CCR1 = PWM_MIN_TIME;                      // pwm duty part
     TA0CCTL0 = CCIE;                             // enable interruption of timer when CCR0 is reached
     TA0CCTL1 = CCIE;                             // enable interruption of timer when CCR1 is reached
-    TA0CTL = TASSEL_2 + ID_0 + MC_1 + TACLR;     // sub-mainClock + divider 1 + up mode + init
+    TA0CTL = TASSEL_2 + ID_3 + MC_1 + TACLR;     // sub-mainClock + divider 1 + up mode + init
 }
 
 void servo_middle() {

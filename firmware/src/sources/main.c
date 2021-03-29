@@ -6,8 +6,8 @@
 void configure() {
     WDTCTL = WDTPW + WDTHOLD;                   // turn off watchdog
 
-    BCSCTL1 = CALBC1_1MHZ;                      // use frequency 1 MHz
-    DCOCTL = CALDCO_1MHZ;
+    BCSCTL1 = CALBC1_8MHZ;                      // use frequency 1 MHz
+    DCOCTL = CALDCO_8MHZ;
 
     P1OUT = 0;                                  // all pins off
     P2OUT = 0;
@@ -19,8 +19,8 @@ int main(void) {
     configure_timer();
     configure_servo();
 
-    servo_middle();
-	start_blinking(4);
+    servo_left();
+	start_blinking(3);
 
     _BIS_SR(LPM0_bits + GIE);                   // low power mode + enable interruptions
 }
