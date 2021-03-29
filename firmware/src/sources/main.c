@@ -20,7 +20,8 @@ int main(void) {
     configure_servo();
 
     // servo_left();
-    servo_right();
+    // servo_right();
+    servo_middle();
 	//start_blinking(3);
 
     _BIS_SR(LPM0_bits + GIE);                   // low power mode + enable interruptions

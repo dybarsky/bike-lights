@@ -17,7 +17,7 @@
 #define PWM_PERIOD_TIME 20000
 #define PWM_MAX_TIME 4800           // 2400 microsec
 #define PWM_MIN_TIME 1000            // 500 microsec
-#define PWM_MED_TIME 1900           // 1450 microsec
+#define PWM_MED_TIME 2900           // 1450 microsec
 
 int pwm[2];
 int current;
