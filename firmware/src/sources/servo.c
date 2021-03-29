@@ -1,10 +1,10 @@
 /*
- frequency = 1 Mhz
- clock rate = 1 000 000
-
- pwm frequency = 50 Hz (1/50 sec)
- pwm period = 1 000 000 / 50 = 20 000
-*/
+ * frequency = 1 Mhz
+ * clock rate = 1 000 000
+ *
+ * pwm frequency = 50 Hz (1/50 sec)
+ * pwm period = 1 000 000 / 50 = 20 000
+ */
 
 #include <msp430g2553.h>
 #include "servo.h"
@@ -16,7 +16,7 @@
 
 #define PWM_PERIOD_TIME 20000
 #define PWM_MAX_TIME 4800           // 2400 microsec
-#define PWM_MIN_TIME 1000            // 500 microsec
+#define PWM_MIN_TIME 1000           // 500 microsec
 #define PWM_MED_TIME 2900           // 1450 microsec
 
 int pwm[2];
@@ -68,9 +68,9 @@ __interrupt void on_timer_a0_callback(void) {
 #pragma vector = TIMER0_A1_VECTOR
 __interrupt void on_timer_a1_callback(void) {
 	if (current == 0) {
-    	OUT_PORT &= ~SERVO_F;                               // turn off port
+    	OUT_PORT &= ~SERVO_F;                   // turn off port
 	} else {
-    	OUT_PORT &= ~SERVO_B;                               // turn off port		
+    	OUT_PORT &= ~SERVO_B;                   // turn off port
 	}
     current = current == 0;
     TA0CCTL1 &= ~CCIFG;                         // reset interruption flag

@@ -1,7 +1,7 @@
 /*
-
-
-*/
+ *
+ *
+ */
 #include <msp430g2553.h>
 #include "const.h"
 #include "timer.h"

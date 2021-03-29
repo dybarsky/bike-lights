@@ -1,6 +1,6 @@
 /*
- Servo control. Moves led strip.
-*/
+ * Servo control. Moves led strip.
+ */
 
 void configure_servo();
 void servo_middle();

@@ -2,6 +2,7 @@
 #include "shift.h"
 #include "servo.h"
 #include "timer.h"
+#include "switch.h"
 
 void configure() {
     WDTCTL = WDTPW + WDTHOLD;                   // turn off watchdog
@@ -18,6 +19,7 @@ int main(void) {
     configure_shift();
     configure_timer();
     configure_servo();
+    configure_switch();
 
     // servo_left();
     // servo_right();
