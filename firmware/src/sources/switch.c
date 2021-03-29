@@ -53,13 +53,14 @@ __interrupt void on_switch_moved() {
 		servo_middle();
 		position1_listen_off();
 		position2_listen_off();
-		start_blinking(3);
+		stop_blinking();
 		P1IFG = 0;
 		return;
 	}
     if (switch1 == SWITCH_1) {
         off = 1;
         servo_left();
+        start_blinking(-1);
         position1_listen_on();
         P1IFG &= ~SWITCH_1;
         return;
@@ -67,6 +68,7 @@ __interrupt void on_switch_moved() {
     if (switch2 == SWITCH_2) {
         off = 1;
         servo_right();
+        start_blinking(-1);
         position2_listen_on();
         P1IFG &= ~SWITCH_2;
         return;

@@ -27,6 +27,7 @@ void start_blinking(short reps) {
 
 void stop_blinking() {
 	TA1CCTL0 = 0;
+	shift(0);
 }
 
 #pragma vector = TIMER1_A0_VECTOR
