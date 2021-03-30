@@ -1,7 +1,8 @@
 #include <msp430g2553.h>
+#include "timer.h"
 #include "shift.h"
 #include "servo.h"
-#include "timer.h"
+#include "state.h"
 #include "switch.h"
 
 void configure() {
@@ -21,11 +22,7 @@ int main(void) {
     configure_servo();
     configure_switch();
 
-    // servo_left();
-    // servo_right();
-    servo_middle();
-    shift(0);
-	//start_blinking(3);
+    state_idle();
 
     _BIS_SR(LPM0_bits + GIE);                   // low power mode + enable interruptions
 }

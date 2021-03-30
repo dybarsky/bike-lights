@@ -3,10 +3,11 @@ HEADERS = src/headers
 OUT = build
 
 export OBJ
-OBJ += $(OUT)/timer.o
+OBJ += $(OUT)/switch.o
+OBJ += $(OUT)/state.o
 OBJ += $(OUT)/shift.o
 OBJ += $(OUT)/servo.o
-OBJ += $(OUT)/switch.o
+OBJ += $(OUT)/timer.o
 OBJ += $(OUT)/main.o
 
 CC = msp430-gcc
@@ -62,6 +63,10 @@ $(OUT)/servo.o: $(SOURCES)/servo.c $(HEADERS)/servo.h
 $(OUT)/timer.o: $(SOURCES)/timer.c $(HEADERS)/*.h
 	@echo "Compile $<";\
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $(SOURCES)/timer.c -o $(OUT)/timer.o
+
+$(OUT)/state.o: $(SOURCES)/state.c $(HEADERS)/*.h
+	@echo "Compile $<";\
+	$(CC) $(CFLAGS) $(INCFLAGS) -c $(SOURCES)/state.c -o $(OUT)/state.o
 
 .SILENT: clean build-dir wait
 .PHONY: clean build-dir flash build
