@@ -47,7 +47,10 @@ int off = 0;
 __interrupt void on_switch_moved() {
     int switch1 = P1IFG & SWITCH_1;
     int switch2 = P1IFG & SWITCH_2;
-
+	/* 
+	 * Previous state was off
+	 * Current state is deactivated (on)
+	 */
 	if (off) {
 		off = 0;
 		servo_middle();
@@ -57,6 +60,7 @@ __interrupt void on_switch_moved() {
 		P1IFG = 0;
 		return;
 	}
+	/* First switch is activated (off) */
     if (switch1 == SWITCH_1) {
         off = 1;
         servo_left();
@@ -65,6 +69,7 @@ __interrupt void on_switch_moved() {
         P1IFG &= ~SWITCH_1;
         return;
     }
+    /* Second switch is activated (off) */
     if (switch2 == SWITCH_2) {
         off = 1;
         servo_right();
@@ -73,5 +78,5 @@ __interrupt void on_switch_moved() {
         P1IFG &= ~SWITCH_2;
         return;
     }
-    P1IFG = 0;
+	P1IFG = 0;
 }
