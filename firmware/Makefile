@@ -60,7 +60,7 @@ $(OUT)/servo.o: $(SOURCES)/servo.c $(HEADERS)/servo.h
 	@echo "Compile $<";\
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $(SOURCES)/servo.c -o $(OUT)/servo.o
 
-$(OUT)/timer.o: $(SOURCES)/timer.c $(HEADERS)/*.h
+$(OUT)/timer.o: $(SOURCES)/timer.c $(HEADERS)/timer.h
 	@echo "Compile $<";\
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $(SOURCES)/timer.c -o $(OUT)/timer.o
 

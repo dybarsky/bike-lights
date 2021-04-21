@@ -46,7 +46,7 @@ __interrupt void on_timer_b0_callback(void) {
 		TA1CCTL0 &= ~CCIFG;
 		return;
 	} else {
-		skip = 1;
+		skip = 1; 
 	}
 	/* Skip first HALF of sec - counter goes 2x faster, LEDs off (wait for servos) */
 	if (cycle == 0 && counter < LED_COUNT) {
