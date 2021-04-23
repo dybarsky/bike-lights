@@ -12,8 +12,9 @@
 int state = 0;
 int count = 0;
 int skip = 0;
-unsigned int leds = 0;							// Active LEDs bits
+unsigned int leds = 0;
 
+// Skip first HALF of second. 
 static int should_skip() {
 	if (skip == 0) {
 		return 0;
@@ -25,6 +26,7 @@ static int should_skip() {
 	return skip;
 }
 
+// Called by timer
 void next_led() {
 	if (should_skip()) {
 		return;

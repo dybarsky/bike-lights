@@ -8,23 +8,26 @@
 #include <msp430g2553.h>
 #include "timer.h"
 
-int skip_next;									// Skip iteration flag
+// Skip iteration flag
+int skip_next;
 
 void configure_timer() {
      TA1CTL = TASSEL_2 + ID_3 + MC_2 + TACLR;
 }
 
 void start_timer() {
-    TA1CCTL0 = CCIE;							// Enable interruptions
+	// Enable interruptions
+    TA1CCTL0 = CCIE;
 }
 
 void stop_timer() {
-	TA1CCTL0 = 0;								// Disable interruaption
+	// Disable interruptions
+	TA1CCTL0 = 0;
 }
 
 #pragma vector = TIMER1_A0_VECTOR
 __interrupt void on_timer_b0_callback(void) {
-	/* Skip every 2nd iteration (to fit cycle into 1 sec) */
+	// Skip every 2nd iteration (to fit cycle into 1 sec)
 	if (skip_next) {
 		skip_next = 0;
 	} else {		

@@ -6,29 +6,38 @@
 #include "switch.h"
 
 void configure() {
-    WDTCTL = WDTPW + WDTHOLD;                   // turn off watchdog
+	// turn off watchdog
+    WDTCTL = WDTPW + WDTHOLD;
 
-    BCSCTL1 = CALBC1_8MHZ;                      // use frequency 1 MHz
+	// use frequency 8 MHz
+    BCSCTL1 = CALBC1_8MHZ;
     DCOCTL = CALDCO_8MHZ;
 
-    P1OUT = 0;                                  // all pins off
+	// all pins off
+    P1OUT = 0;
     P2OUT = 0;
 }
 
 int main(void) {
+	// configure MCU
     configure();
+
+	// configure peripherals
     configure_shift();
     configure_timer();
     configure_servo();
     configure_switch();
 
+	// inital state
     state_idle();
 
 	// low power mode + enable interruptions
     _BIS_SR(LPM0_bits + GIE);
 }
 
-// callbacks implementation
+/* 
+ * callbacks implementation
+ */
 
 void event_switch_left() {
 	state_left();
@@ -45,4 +54,3 @@ void event_switch_middle() {
 void event_timer() {
 	next_led();
 }
-
