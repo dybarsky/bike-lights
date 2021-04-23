@@ -8,13 +8,11 @@
 #include <msp430g2553.h>
 #include "timer.h"
 
+int skip_next;									// Skip iteration flag
+
 void configure_timer() {
      TA1CTL = TASSEL_2 + ID_3 + MC_2 + TACLR;
 }
-
-// unsigned int data;								// Active LEDs bits
-// int counter;									// Iteration counter
-int skip_next;										// Skip iteration flag
 
 void start_timer() {
     TA1CCTL0 = CCIE;							// Enable interruptions
@@ -22,7 +20,6 @@ void start_timer() {
 
 void stop_timer() {
 	TA1CCTL0 = 0;								// Disable interruaption
-	// shift(0);									// Turn off LEDs
 }
 
 #pragma vector = TIMER1_A0_VECTOR
@@ -36,26 +33,3 @@ __interrupt void on_timer_b0_callback(void) {
 	}
     TA1CCTL0 &= ~CCIFG;
 }	
-
-
-	/* Skip first HALF of sec - counter goes 2x faster, LEDs off (wait for servos) */
-	// if (counter < LED_COUNT) {
-		// counter += 2;
-		// TA1CCTL0 &= ~CCIFG;
-		// return;
-	// }
-
-	/* 
-	 * If cycle finished - reset state
-	 * Else - turn on next LED
-	 */
-    // if (counter >= LED_COUNT) {
-    	// counter = 0;
-    	// data = 0;
-   		// cycle ++;
-   		// 
-	    // shift(0);
-	// } else {
-    	// data += 1 << counter ++;
-    	// shift(data);
-	// }

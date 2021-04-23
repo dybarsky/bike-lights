@@ -24,21 +24,25 @@ int main(void) {
 
     state_idle();
 
-    _BIS_SR(LPM0_bits + GIE);                   // low power mode + enable interruption}
+	// low power mode + enable interruptions
+    _BIS_SR(LPM0_bits + GIE);
 }
 
-void event_timer() {
-	
-}
+// callbacks implementation
 
 void event_switch_left() {
-	
+	state_left();
 }
 
 void event_switch_right() {
-	
+	state_right();
 }
 
 void event_switch_middle() {
-	
+	state_idle();
 }
+
+void event_timer() {
+	next_led();
+}
+
