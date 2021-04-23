@@ -1,5 +1,5 @@
 /*
- *
+ * State machine. Main logic.
  */
 
 #ifndef HEADER_STATE

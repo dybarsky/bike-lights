@@ -1,5 +1,5 @@
 /*
- *
+ * Switch control. Listens for user interaction.
  */
 
 #ifndef HEADER_SWITCH
