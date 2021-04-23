@@ -5,10 +5,12 @@
 #ifndef HEADER_SWITCH
 #define HEADER_SWITCH
 
+// control functions 
 void configure_switch();
-void position1_listen_on();
-void position1_listen_off();
-void position2_listen_on();
-void position2_listen_off();
+
+// callback functions
+void event_switch_left();
+void event_switch_right();
+void event_switch_middle();
 
 #endif // HEADER_SWITCH

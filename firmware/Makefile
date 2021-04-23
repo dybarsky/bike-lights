@@ -64,7 +64,7 @@ $(OUT)/timer.o: $(SOURCES)/timer.c $(HEADERS)/timer.h
 	@echo "Compile $<";\
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $(SOURCES)/timer.c -o $(OUT)/timer.o
 
-$(OUT)/state.o: $(SOURCES)/state.c $(HEADERS)/*.h
+$(OUT)/state.o: $(SOURCES)/state.c $(HEADERS)/state.h
 	@echo "Compile $<";\
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $(SOURCES)/state.c -o $(OUT)/state.o
 

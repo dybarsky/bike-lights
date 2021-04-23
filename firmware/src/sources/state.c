@@ -8,3 +8,7 @@ void state_idle() {
     shift(0);
     servo_middle();
 }
+
+void state_() {
+	
+}

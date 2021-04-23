@@ -16,7 +16,7 @@ void configure() {
 }
 
 int main(void) {
-    configure();     
+    configure();
     configure_shift();
     configure_timer();
     configure_servo();
@@ -24,5 +24,21 @@ int main(void) {
 
     state_idle();
 
-    _BIS_SR(LPM0_bits + GIE);                   // low power mode + enable interruptions
+    _BIS_SR(LPM0_bits + GIE);                   // low power mode + enable interruption}
+}
+
+void event_timer() {
+	
+}
+
+void event_switch_left() {
+	
+}
+
+void event_switch_right() {
+	
+}
+
+void event_switch_middle() {
+	
 }
