@@ -17,12 +17,15 @@
 #define SERVO_B_BIT    	BIT2
 
 #define PWM_PERIOD_TIME 20000
-#define PWM_MAX_TIME 4800       // 2400 microsec
-#define PWM_MIN_TIME 1000       // 500 microsec
-#define PWM_MED_TIME 2900       // 1450 microsec
+#define SERVO_F_PWM_MAX_TIME 4800       // 2400 microsec
+#define SERVO_B_PWM_MAX_TIME 4600       // 2300 microsec
+#define SERVO_F_PWM_MIN_TIME 1000       // 500 microsec
+#define SERVO_B_PWM_MIN_TIME 1200       // 600 microsec
+#define SERVO_F_PWM_MED_TIME 2800       // 1400 microsec
+#define SERVO_B_PWM_MED_TIME 2900       // 1450 microsec
 
 int pwm[2];
-int current;
+int pwm_index = 0;
 
 void configure_servo() {
 	// turn off port
@@ -34,7 +37,7 @@ void configure_servo() {
 	// pwm period
     TA0CCR0 = PWM_PERIOD_TIME;
 	// pwm duty cycle
-    TA0CCR1 = PWM_MIN_TIME;
+    TA0CCR1 = SERVO_F_PWM_MIN_TIME;
 	// enable interruption of timer when CCR0 is reached
     TA0CCTL0 = CCIE;
 	// enable interruption of timer when CCR1 is reached
@@ -44,48 +47,48 @@ void configure_servo() {
 }
 
 void servo_middle() {
-    pwm[0] = PWM_MED_TIME;
-    pwm[1] = PWM_MED_TIME;
-    TA0CCR1 = PWM_MED_TIME;
-    current = 0;
+    pwm[0] = SERVO_F_PWM_MED_TIME;
+    pwm[1] = SERVO_B_PWM_MED_TIME;
+    TA0CCR1 = SERVO_F_PWM_MED_TIME;
+    pwm_index = 0;
 }
 
 void servo_left() {
-    pwm[0] = PWM_MIN_TIME;
-    pwm[1] = PWM_MAX_TIME;
-    TA0CCR1 = PWM_MIN_TIME;
-    current = 0;
+    pwm[0] = SERVO_F_PWM_MIN_TIME;
+    pwm[1] = SERVO_B_PWM_MAX_TIME;
+    TA0CCR1 = SERVO_F_PWM_MIN_TIME;
+    pwm_index = 0;
 }
 
 void servo_right() {
-    pwm[0] = PWM_MAX_TIME;
-    pwm[1] = PWM_MIN_TIME;
-    TA0CCR1 = PWM_MAX_TIME;
-    current = 0;
+    pwm[0] = SERVO_F_PWM_MAX_TIME;
+    pwm[1] = SERVO_B_PWM_MIN_TIME;
+    TA0CCR1 = SERVO_F_PWM_MAX_TIME;
+    pwm_index = 0;
 }
 
 #pragma vector = TIMER0_A0_VECTOR
 __interrupt void on_timer_a0_callback(void) {
-    if (current == 0) {
+    if (pwm_index == 0) {
         SERVO_F_PORT |= SERVO_F_BIT;
     } else {
         SERVO_B_PORT |= SERVO_B_BIT;
     }
-    TA0CCR1 = pwm[current];
+    TA0CCR1 = pwm[pwm_index];
 	// reset interruption flag
     TA0CCTL0 &= ~CCIFG;
 }
 
 #pragma vector = TIMER0_A1_VECTOR
 __interrupt void on_timer_a1_callback(void) {
-	if (current == 0) {
+	if (pwm_index == 0) {
 		// turn off port for front servo
     	SERVO_F_PORT &= ~SERVO_F_BIT;
 	} else {
 		// turn off port for back servo
     	SERVO_B_PORT &= ~SERVO_B_BIT;
 	}
-    current = current == 0;
+    pwm_index = pwm_index == 0;
    	// reset interruption flag
     TA0CCTL1 &= ~CCIFG;
 }
