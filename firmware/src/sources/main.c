@@ -1,7 +1,6 @@
 #include <msp430g2553.h>
 #include "timer.h"
 #include "shift.h"
-#include "servo.h"
 #include "state.h"
 #include "switch.h"
 
@@ -25,7 +24,6 @@ int main(void) {
 	// configure peripherals
     configure_shift();
     configure_timer();
-    configure_servo();
     configure_switch();
 
 	// inital state

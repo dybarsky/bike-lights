@@ -6,7 +6,6 @@ export OBJ
 OBJ += $(OUT)/switch.o
 OBJ += $(OUT)/state.o
 OBJ += $(OUT)/shift.o
-OBJ += $(OUT)/servo.o
 OBJ += $(OUT)/timer.o
 OBJ += $(OUT)/main.o
 
@@ -55,10 +54,6 @@ $(OUT)/shift.o: $(SOURCES)/shift.c $(HEADERS)/shift.h
 $(OUT)/switch.o: $(SOURCES)/switch.c $(HEADERS)/switch.h
 	@echo "Compile $<";\
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $(SOURCES)/switch.c -o $(OUT)/switch.o
-
-$(OUT)/servo.o: $(SOURCES)/servo.c $(HEADERS)/servo.h
-	@echo "Compile $<";\
-	$(CC) $(CFLAGS) $(INCFLAGS) -c $(SOURCES)/servo.c -o $(OUT)/servo.o
 
 $(OUT)/timer.o: $(SOURCES)/timer.c $(HEADERS)/timer.h
 	@echo "Compile $<";\
