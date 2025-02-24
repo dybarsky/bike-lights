@@ -9,7 +9,7 @@ OBJ += $(OUT)/shift.o
 OBJ += $(OUT)/timer.o
 OBJ += $(OUT)/main.o
 
-CC = msp430-elf-gcc
+CC = msp430-gcc
 CFLAGS = -g -mmcu=msp430g2553
 INCFLAGS = -I/usr/local/include -I$(HEADERS)
 

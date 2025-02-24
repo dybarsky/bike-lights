@@ -15,6 +15,7 @@ RUN unzip /msp430tools/support-files.zip -d /msp430tools/
 ENV GCC_HOME=/msp430tools/msp430-gcc-9.3.1.11_linux64
 RUN mv /msp430tools/msp430-gcc-support-files/include/*.h $GCC_HOME/msp430-elf/include/
 RUN mv /msp430tools/msp430-gcc-support-files/include/*.ld $GCC_HOME/msp430-elf/lib/
+RUN ln -s $GCC_HOME/bin/msp430-elf-gcc /usr/bin/msp430-gcc
 ENV PATH="$PATH:$GCC_HOME/bin"
 # Setup workdir
 RUN mkdir /firmware
