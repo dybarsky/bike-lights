@@ -9,7 +9,6 @@
 void configure_timer();
 void start_timer();
 void stop_timer();
-
 // callback functions
 void event_timer();
 
