@@ -33,5 +33,5 @@ void stop_timer() {
 __interrupt void on_timer_a0_callback(void) {
 	event_timer();
 	// Reset interruptions
-    TA1CCTL0 &= ~CCIFG;
-}	
+	TA1CCTL0 &= ~CCIFG;
+}

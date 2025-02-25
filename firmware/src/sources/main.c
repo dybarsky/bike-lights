@@ -7,24 +7,24 @@
 
 void configure() {
 	// turn off watchdog
-    WDTCTL = WDTPW + WDTHOLD;
+	WDTCTL = WDTPW + WDTHOLD;
 	// use frequency 1 MHz
-    BCSCTL1 = CALBC1_1MHZ;
-    DCOCTL = CALDCO_1MHZ;
+	BCSCTL1 = CALBC1_1MHZ;
+	DCOCTL = CALDCO_1MHZ;
 	// all pins off
-    P1OUT = 0;
-    P2OUT = 0;
+	P1OUT = 0;
+	P2OUT = 0;
 }
 
 int main(void) {
 	// configure MCU
-    configure();
+	configure();
 	// configure peripherals
-    configure_spi();
-    configure_timer();
-    configure_switch();
+	configure_spi();
+	configure_timer();
+	configure_switch();
 	// low power mode + enable interruptions
-    _BIS_SR(LPM0_bits + GIE);
+	_BIS_SR(LPM0_bits + GIE);
 }
 
 // main logic and callbacks implementation

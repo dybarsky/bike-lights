@@ -17,48 +17,48 @@ static void position_right_listen_off();
 
 void configure_switch() {
 	// enable pulling
-    P1REN |= LEFT + RIGHT;
-    // pull up
-    P1OUT |= LEFT + RIGHT;
+	P1REN |= LEFT + RIGHT;
+	// pull up
+	P1OUT |= LEFT + RIGHT;
 	// initial position
-    position_left_listen_on();
-  	position_right_listen_on();
+	position_left_listen_on();
+	position_right_listen_on();
 }
 
 static void position_left_listen_off() {
 	// interruptions from 0 to 1
-    P1IES &= ~LEFT;
+	P1IES &= ~LEFT;
 	// reset interruption flag to avoid false call
-    P1IFG &= ~LEFT;
-    // enable interruptions for bit
-    P1IE |= LEFT;
+	P1IFG &= ~LEFT;
+	// enable interruptions for bit
+	P1IE |= LEFT;
 }
 
 static void position_left_listen_on() {
 	// interruptions from 1 to 0
-    P1IES |= LEFT;
-    // reset interruption flag to avoid false call
-    P1IFG &= ~LEFT;
-    // enable interruptions for bit
-    P1IE |= LEFT;
+	P1IES |= LEFT;
+	// reset interruption flag to avoid false call
+	P1IFG &= ~LEFT;
+	// enable interruptions for bit
+	P1IE |= LEFT;
 }
 
 static void position_right_listen_off() {
 	// interruptions from 0 to 1
-    P1IES &= ~RIGHT;
-    // reset interruption flag to avoid false call
-    P1IFG &= ~RIGHT;
+	P1IES &= ~RIGHT;
+	// reset interruption flag to avoid false call
+	P1IFG &= ~RIGHT;
 	// enable interruptions for bit
-   	P1IE |= RIGHT;
+	P1IE |= RIGHT;
 }
 
 static void position_right_listen_on() {
 	// interruptions from 1 to 0
-    P1IES |= RIGHT;
-    // reset interruption flag to avoid false call
-    P1IFG &= ~RIGHT;
-    // enable interruptions for bit
-    P1IE |= RIGHT;
+	P1IES |= RIGHT;
+	// reset interruption flag to avoid false call
+	P1IFG &= ~RIGHT;
+	// enable interruptions for bit
+	P1IE |= RIGHT;
 }
 
 typedef enum { OFF, ON } state;
@@ -66,8 +66,8 @@ static state current = OFF;
 
 #pragma vector = PORT1_VECTOR
 __interrupt void on_switch_moved() {
-    unsigned char switch_left = P1IFG & LEFT;
-    unsigned char switch_right = P1IFG & RIGHT;
+	unsigned char switch_left = P1IFG & LEFT;
+	unsigned char switch_right = P1IFG & RIGHT;
 
 	switch(current) {
 

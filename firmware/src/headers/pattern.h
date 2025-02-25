@@ -8,8 +8,8 @@
 #define LENGTH 9
 
 typedef struct {
-    unsigned char * back;
-    unsigned char * front;
+	unsigned char * back;
+	unsigned char * front;
 } pattern;
 
 pattern get_left_pattern();
