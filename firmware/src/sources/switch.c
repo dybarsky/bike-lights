@@ -7,97 +7,89 @@
 #include <msp430g2553.h>
 #include "switch.h"
 
-#define SWITCH_1 BIT0
-#define SWITCH_2 BIT3
+#define LEFT BIT0
+#define RIGHT BIT3
 
-static void position_a_listen_off();
-static void position_b_listen_on();
-static void position_b_listen_off();
-static void position_a_listen_off();
+static void position_left_listen_on();
+static void position_left_listen_off();
+static void position_right_listen_on();
+static void position_right_listen_off();
 
 void configure_switch() {
 	// enable pulling
-    P1REN |= SWITCH_1;
+    P1REN |= LEFT + RIGHT;
     // pull up
-    P1OUT |= SWITCH_1;
-
-    // enable pulling
-    P1REN |= SWITCH_2;
-	// pull up
-    P1OUT |= SWITCH_2;
-
-    position_a_listen_off();
-  	position_b_listen_off();
+    P1OUT |= LEFT + RIGHT;
+	// initial position
+    position_left_listen_on();
+  	position_right_listen_on();
 }
 
-static void position_a_listen_on() {
+static void position_left_listen_off() {
 	// interruptions from 0 to 1
-    P1IES &= ~SWITCH_1;
+    P1IES &= ~LEFT;
 	// reset interruption flag to avoid false call
-    P1IFG &= ~SWITCH_1;
+    P1IFG &= ~LEFT;
     // enable interruptions for bit
-    P1IE |= SWITCH_1;
+    P1IE |= LEFT;
 }
 
-static void position_a_listen_off() {
+static void position_left_listen_on() {
 	// interruptions from 1 to 0
-    P1IES |= SWITCH_1;
+    P1IES |= LEFT;
     // reset interruption flag to avoid false call
-    P1IFG &= ~SWITCH_1;
+    P1IFG &= ~LEFT;
     // enable interruptions for bit
-    P1IE |= SWITCH_1;
+    P1IE |= LEFT;
 }
 
-static void position_b_listen_on() {
+static void position_right_listen_off() {
 	// interruptions from 0 to 1
-    P1IES &= ~SWITCH_2;
+    P1IES &= ~RIGHT;
     // reset interruption flag to avoid false call
-    P1IFG &= ~SWITCH_2;
+    P1IFG &= ~RIGHT;
 	// enable interruptions for bit
-   	P1IE |= SWITCH_2;
+   	P1IE |= RIGHT;
 }
 
-static void position_b_listen_off() {
+static void position_right_listen_on() {
 	// interruptions from 1 to 0
-    P1IES |= SWITCH_2;
+    P1IES |= RIGHT;
     // reset interruption flag to avoid false call
-    P1IFG &= ~SWITCH_2;
+    P1IFG &= ~RIGHT;
     // enable interruptions for bit
-    P1IE |= SWITCH_2;
+    P1IE |= RIGHT;
 }
 
-int off = 0;
+typedef enum { OFF, ON } state;
+static state current = OFF;
 
 #pragma vector = PORT1_VECTOR
 __interrupt void on_switch_moved() {
-    int switch1 = P1IFG & SWITCH_1;
-    int switch2 = P1IFG & SWITCH_2;
-	/* 
-	 * Previous state was off
-	 * Current state is deactivated (on)
-	 */
-	if (off) {
-		off = 0;
-		event_switch_middle();
-		position_a_listen_off();
-		position_b_listen_off();
-		return;
+    unsigned char switch_left = P1IFG & LEFT;
+    unsigned char switch_right = P1IFG & RIGHT;
+
+	switch(current) {
+
+		case ON:
+			event_switch_middle();
+			position_left_listen_on();
+			position_right_listen_on();
+			current = OFF;
+			P1IFG &= ~(LEFT + RIGHT);
+			break;
+
+		case OFF:
+			if (switch_left == LEFT) {
+				event_switch_left();
+				position_left_listen_off();
+			}
+			if (switch_right == RIGHT) {
+				event_switch_right();
+				position_right_listen_off();
+			}
+			current = ON;
+			P1IFG &= ~(LEFT + RIGHT);
+			break;
 	}
-	// First switch is activated (off)
-    if (switch1 == SWITCH_1) {
-        off = 1;
-        event_switch_left();
-        position_a_listen_on();
-        P1IFG &= ~SWITCH_1;
-        return;
-    }
-    // Second switch is activated (off)
-    if (switch2 == SWITCH_2) {
-        off = 1;
-        event_switch_right();
-        position_b_listen_on();
-        P1IFG &= ~SWITCH_2;
-        return;
-    }
-	P1IFG = 0;
 }
