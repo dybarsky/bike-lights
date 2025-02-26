@@ -1,9 +1,9 @@
 #include <msp430g2553.h>
 #include "spi.h"
 
-#define DATA		BIT4
-#define CLOCK		BIT3
-#define LATCH_FRONT	BIT2
+#define DATA		BIT2
+#define CLOCK		BIT4
+#define LATCH_FRONT	BIT3
 #define LATCH_BACK	BIT5
 
 static void transmit(unsigned char data);
@@ -33,15 +33,16 @@ void send_to_back(unsigned char data) {
 }
 
 static void transmit(const unsigned char data) {
-	for (char count = 0; count < 8; count ++) {
-	const char bytes = 1 << count & data;
-	if (bytes) {
-	P1OUT |= DATA;
-	} else {
-	P1OUT &= ~DATA;
-	}
-	// clock tick
-	P1OUT |= CLOCK;
-	P1OUT &= ~CLOCK;
+	unsigned char count;
+	for (count = 0; count < 8; count ++) {
+		const char bytes = 1 << count & data;
+		if (bytes) {
+			P1OUT |= DATA;
+		} else {
+			P1OUT &= ~DATA;
+		}
+		// clock tick
+		P1OUT |= CLOCK;
+		P1OUT &= ~CLOCK;
 	}
 }
