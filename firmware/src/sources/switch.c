@@ -7,8 +7,8 @@
 #include <msp430g2553.h>
 #include "switch.h"
 
-#define LEFT BIT0
-#define RIGHT BIT3
+#define LEFT	BIT3
+#define RIGHT	BIT4
 
 static void position_left_listen_on();
 static void position_left_listen_off();
@@ -16,10 +16,12 @@ static void position_right_listen_on();
 static void position_right_listen_off();
 
 void configure_switch() {
+	// setup pin direction
+	P2DIR &= ~(LEFT + RIGHT);
 	// enable pulling
-	P1REN |= LEFT + RIGHT;
+	P2REN |= LEFT + RIGHT;
 	// pull up
-	P1OUT |= LEFT + RIGHT;
+	P2OUT |= LEFT + RIGHT;
 	// initial position
 	position_left_listen_on();
 	position_right_listen_on();
@@ -27,47 +29,47 @@ void configure_switch() {
 
 static void position_left_listen_off() {
 	// interruptions from 0 to 1
-	P1IES &= ~LEFT;
+	P2IES &= ~LEFT;
 	// reset interruption flag to avoid false call
-	P1IFG &= ~LEFT;
+	P2IFG &= ~LEFT;
 	// enable interruptions for bit
-	P1IE |= LEFT;
+	P2IE |= LEFT;
 }
 
 static void position_left_listen_on() {
 	// interruptions from 1 to 0
-	P1IES |= LEFT;
+	P2IES |= LEFT;
 	// reset interruption flag to avoid false call
-	P1IFG &= ~LEFT;
+	P2IFG &= ~LEFT;
 	// enable interruptions for bit
-	P1IE |= LEFT;
+	P2IE |= LEFT;
 }
 
 static void position_right_listen_off() {
 	// interruptions from 0 to 1
-	P1IES &= ~RIGHT;
+	P2IES &= ~RIGHT;
 	// reset interruption flag to avoid false call
-	P1IFG &= ~RIGHT;
+	P2IFG &= ~RIGHT;
 	// enable interruptions for bit
-	P1IE |= RIGHT;
+	P2IE |= RIGHT;
 }
 
 static void position_right_listen_on() {
 	// interruptions from 1 to 0
-	P1IES |= RIGHT;
+	P2IES |= RIGHT;
 	// reset interruption flag to avoid false call
-	P1IFG &= ~RIGHT;
+	P2IFG &= ~RIGHT;
 	// enable interruptions for bit
-	P1IE |= RIGHT;
+	P2IE |= RIGHT;
 }
 
 typedef enum { OFF, ON } state;
 static state current = OFF;
 
-#pragma vector = PORT1_VECTOR
+#pragma vector = PORT2_VECTOR
 __interrupt void on_switch_moved() {
-	unsigned char switch_left = P1IFG & LEFT;
-	unsigned char switch_right = P1IFG & RIGHT;
+	unsigned char switch_left = P2IFG & LEFT;
+	unsigned char switch_right = P2IFG & RIGHT;
 
 	switch(current) {
 
@@ -76,20 +78,20 @@ __interrupt void on_switch_moved() {
 			position_left_listen_on();
 			position_right_listen_on();
 			current = OFF;
-			P1IFG &= ~(LEFT + RIGHT);
+			P2IFG &= ~(LEFT + RIGHT);
 			break;
 
 		case OFF:
-			if (switch_left == LEFT) {
+			if (switch_left) {
 				event_switch_left();
 				position_left_listen_off();
 			}
-			if (switch_right == RIGHT) {
+			if (switch_right) {
 				event_switch_right();
 				position_right_listen_off();
 			}
 			current = ON;
-			P1IFG &= ~(LEFT + RIGHT);
+			P2IFG &= ~(LEFT + RIGHT);
 			break;
 	}
 }
