@@ -23,6 +23,9 @@ int main(void) {
 	configure_spi();
 	configure_timer();
 	configure_switch();
+	// initial state
+	send_to_front(0);
+	send_to_back(0);
 	// low power mode + enable interruptions
 	_BIS_SR(LPM0_bits + GIE);
 }
@@ -36,8 +39,8 @@ void event_timer() {
 	if (counter >= LENGTH) {
 		counter = 0;
 	}
-	send_to_front(*current.front + counter);
-	send_to_back(*current.back + counter);
+	send_to_front(current.front[counter]);
+	send_to_back(current.back[counter]);
 	counter++;
 }
 
