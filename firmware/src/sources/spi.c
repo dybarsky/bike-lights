@@ -1,9 +1,9 @@
 #include <msp430g2553.h>
 #include "spi.h"
 
-#define DATA		BIT2
-#define CLOCK		BIT4
-#define LATCH_FRONT	BIT3
+#define DATA		BIT3
+#define CLOCK		BIT2
+#define LATCH_FRONT	BIT4
 #define LATCH_BACK	BIT5
 
 static void transmit(unsigned char data);
